@@ -9,7 +9,8 @@ public class IART {
 
         DataSet dataSet = new DataSet("default_features_1059_tracks.txt");
 
-        dataSet.setUp();
+        dataSet.loadData();
+        dataSet.test();
 
     }
 }
