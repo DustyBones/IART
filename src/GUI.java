@@ -1,4 +1,7 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +56,7 @@ public class GUI extends JFrame {
 
 		JPanel panel = new JPanel();
 
-		setTitle("Simple example"); //SET TITLE
+		setTitle("Music Location"); //SET TITLE
 		setSize(700, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -63,8 +66,27 @@ public class GUI extends JFrame {
 		openFileButton = new JButton("Input File/DataSet File");
 		openFileButton.setBounds(127, 101, 167, 23);
 		openFileButton.setVerticalAlignment(SwingConstants.TOP);
+		openFileButton.setFocusable(false);
+		FileFilter filter = new FileNameExtensionFilter("CSV File", new String[] {"csv", "txt"});
+		inputChooser.addChoosableFileFilter(filter);
+		inputChooser.setFileFilter(filter);
+		outputChooser.addChoosableFileFilter(filter);
+		outputChooser.setFileFilter(filter);
 		saveFileButton = new JButton("Output File/Analysis Results");
 		saveFileButton.setBounds(127, 160, 167, 23);
+		saveFileButton.setFocusable(false);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setEnabled(false);
+		textPane.setEditable(false);
+		textPane.setBounds(307, 101, 262, 23);
+		panel.add(textPane);
+
+		JTextPane textPane_1 = new JTextPane();
+		textPane_1.setEnabled(false);
+		textPane_1.setEditable(false);
+		textPane_1.setBounds(310, 160, 259, 23);
+		panel.add(textPane_1);
 
 		openFileButton.addActionListener(new ActionListener() {
 			@Override
@@ -72,6 +94,8 @@ public class GUI extends JFrame {
 				int returnVal = inputChooser.showOpenDialog(gui);
 				if(returnVal == JFileChooser.APPROVE_OPTION) {
 					inputFile = inputChooser.getSelectedFile();
+					textPane.setText(inputFile.getAbsolutePath());
+					textPane.setEnabled(true);
 				}
 			}
 		});
@@ -79,9 +103,11 @@ public class GUI extends JFrame {
 		saveFileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				int returnVal = outputChooser.showOpenDialog(gui);
+				int returnVal = outputChooser.showSaveDialog(gui);
 				if(returnVal == JFileChooser.APPROVE_OPTION) {
 					outputFile = outputChooser.getSelectedFile();
+					textPane_1.setText(outputFile.getAbsolutePath());
+					textPane_1.setEnabled(true);
 				}
 			}
 		});
@@ -95,18 +121,6 @@ public class GUI extends JFrame {
 		panel.add(saveFileButton);
 
 		getContentPane().add(panel);
-
-		JTextPane textPane = new JTextPane();
-		textPane.setEnabled(false);
-		textPane.setEditable(false);
-		textPane.setBounds(307, 101, 262, 23);
-		panel.add(textPane);
-
-		JTextPane textPane_1 = new JTextPane();
-		textPane_1.setEnabled(false);
-		textPane_1.setEditable(false);
-		textPane_1.setBounds(310, 160, 259, 23);
-		panel.add(textPane_1);
 
 		JButton btnRunTest = new JButton("Run Test");
 		btnRunTest.setBounds(285, 358, 89, 23);
