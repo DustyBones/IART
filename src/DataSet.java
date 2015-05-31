@@ -1,9 +1,14 @@
 import weka.classifiers.Evaluation;
+import weka.classifiers.meta.AdaBoostM1;
 import weka.classifiers.trees.J48;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instances;
+import weka.gui.treevisualizer.PlaceNode2;
+import weka.gui.treevisualizer.TreeVisualizer;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -32,7 +37,7 @@ public class DataSet {
         areaDB.add("Oceania");
     }
 
-    public String findCity(String lat, String lon) {
+    public String findArea(String lat, String lon) {
         float latF, lonF;
         latF = Float.parseFloat(lat);
         lonF = Float.parseFloat(lon);
@@ -126,7 +131,7 @@ public class DataSet {
             for (int i = 0; i < data.numAttributes(); i++) {
                 val[i] = Double.parseDouble(attributes[i]);
             }
-            val[68] = data.attribute(68).indexOfValue(findCity(attributes[68], attributes[69]));
+            val[68] = data.attribute(68).indexOfValue(findArea(attributes[68], attributes[69]));
             data.add(new DenseInstance(1.0, val));
         }
 
@@ -138,16 +143,30 @@ public class DataSet {
         tree = new J48();
         String[] options = new String[4];
         options[0] = "-C";
-        options[1] = ".2";
+        options[1] = "0.2";
         options[2] = "-M";
         options[3] = "2";
         tree.setOptions(options);
         tree.buildClassifier(data);
+
+        AdaBoostM1 boost = new AdaBoostM1();
+        boost.setClassifier(tree);
+
         eval = new Evaluation(data);
-        eval.crossValidateModel(tree, data, 10, new Random(123));
+        eval.crossValidateModel(boost, data, 10, new Random(123));
+
         System.out.println(eval.pctCorrect());
 
-        //System.out.println(eval.toSummaryString("Results: \n\n", false));
+        TreeVisualizer tv = new TreeVisualizer(null, tree.graph(), new PlaceNode2());
+        JFrame jf = new JFrame("Weka Classifier Tree Visualizer: J48");
+        jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf.setSize(800, 600);
+        jf.getContentPane().setLayout(new BorderLayout());
+        jf.getContentPane().add(tv, BorderLayout.CENTER);
+        jf.setVisible(true);
+// adjust tree
+        tv.fitToScreen();
 
+        //System.out.println(eval.toSummaryString("Results: \n\n", false));
     }
 }

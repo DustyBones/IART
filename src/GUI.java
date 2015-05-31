@@ -1,30 +1,17 @@
-import java.awt.EventQueue;
-import java.awt.SystemColor;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSpinner;
-import javax.swing.JTextPane;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 @SuppressWarnings("serial")
 public class GUI extends JFrame {
 
 	JFileChooser inputChooser, outputChooser;
-	private JButton openFileButton, saveFileButton;
-	int testingMode=0, percentage=-1;
-	boolean focus=true;
-	File inputFile, outputFile;
+    int testingMode = 0, percentage = -1;
+    boolean focus = true;
+    File inputFile, outputFile;
+    private JButton openFileButton, saveFileButton;
 
 	public GUI() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 
@@ -123,18 +110,18 @@ public class GUI extends JFrame {
 
 		JButton btnRunTest = new JButton("Run Test");
 		btnRunTest.setBounds(285, 358, 89, 23);
-		panel.add(btnRunTest); 
+		panel.add(btnRunTest);
 
-		JRadioButton rdbtnTrainingFile = new JRadioButton("Training Set");
-		rdbtnTrainingFile.setBounds(127, 275, 109, 23);
+        final JRadioButton rdbtnTrainingFile = new JRadioButton("Training Set");
+        rdbtnTrainingFile.setBounds(127, 275, 109, 23);
 		panel.add(rdbtnTrainingFile);
 
-		JRadioButton rdbtnCrossTest = new JRadioButton("Cross Validation");
-		rdbtnCrossTest.setBounds(285, 275, 134, 23);
+        final JRadioButton rdbtnCrossTest = new JRadioButton("Cross Validation");
+        rdbtnCrossTest.setBounds(285, 275, 134, 23);
 		panel.add(rdbtnCrossTest);
 
-		JRadioButton rdbtnPercentage = new JRadioButton("Percentage Split");
-		rdbtnPercentage.setBounds(448, 275, 121, 23);
+        final JRadioButton rdbtnPercentage = new JRadioButton("Percentage Split");
+        rdbtnPercentage.setBounds(448, 275, 121, 23);
 		panel.add(rdbtnPercentage);
 
 		ButtonGroup radioBtnGroup = new ButtonGroup();
@@ -142,14 +129,14 @@ public class GUI extends JFrame {
 		radioBtnGroup.add(rdbtnCrossTest);
 		radioBtnGroup.add(rdbtnPercentage);
 
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(30, 10, 90, 5));
+        final JSpinner spinner = new JSpinner();
+        spinner.setModel(new SpinnerNumberModel(30, 10, 90, 5));
 		spinner.setEnabled(false);
 		spinner.setBounds(587, 305, 39, 23);
 		panel.add(spinner);
 
-		JTextPane txtpnTestingPercentage = new JTextPane();
-		txtpnTestingPercentage.setBackground(SystemColor.controlLtHighlight);
+        final JTextPane txtpnTestingPercentage = new JTextPane();
+        txtpnTestingPercentage.setBackground(SystemColor.controlLtHighlight);
 		txtpnTestingPercentage.setEditable(false);
 		txtpnTestingPercentage.setEnabled(false);
 		txtpnTestingPercentage.setText("Testing Percentage");
