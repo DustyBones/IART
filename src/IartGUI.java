@@ -13,18 +13,13 @@ public class IartGUI extends JFrame {
 
     JFileChooser inputChooser, outputChooser;
     int testingMode = 0, percentage = 66;
-    boolean focus = true;
     File inputFile, outputFile;
     private JButton openFileButton, saveFileButton;
     private DataSet dataSet;
-    private boolean boost;
 
     public IartGUI() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-
         initGUI(this);
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        //FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
-        //chooser.setFileFilter(filter);
     }
 
     public static void main(String[] args) {
@@ -51,7 +46,7 @@ public class IartGUI extends JFrame {
         setTitle("Music Data Location"); //SET TITLE
         setSize(700, 500);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         inputChooser = new JFileChooser();
         outputChooser = new JFileChooser();
@@ -130,7 +125,7 @@ public class IartGUI extends JFrame {
         rdbtnPercentage.setBounds(448, 275, 121, 23);
         panel.add(rdbtnPercentage);
 
-        ButtonGroup radioBtnGroup = new ButtonGroup();
+        final ButtonGroup radioBtnGroup = new ButtonGroup();
         radioBtnGroup.add(rdbtnTrainingFile);
         radioBtnGroup.add(rdbtnCrossTest);
         radioBtnGroup.add(rdbtnPercentage);
@@ -189,12 +184,18 @@ public class IartGUI extends JFrame {
         btnRunTest.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                try {
-                    dataSet = new DataSet(inputFile, outputFile, testingMode, percentage, true);
-                    dataSet.loadData();
-                    dataSet.test();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (!textPane.getText().equals("")
+                        && !textPane_1.getText().equals("")
+                        && (rdbtnCrossTest.isSelected() || rdbtnPercentage.isSelected() || rdbtnTrainingFile.isSelected())) {
+                    if (inputFile.exists()) {
+                        try {
+                            dataSet = new DataSet(inputFile, outputFile, testingMode, percentage, true);
+                            dataSet.loadData();
+                            dataSet.test();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         });
