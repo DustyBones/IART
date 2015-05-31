@@ -1,7 +1,9 @@
+import javax.swing.*;
+
 public class IART {
 
     public static void main(String[] args) throws Exception {
-
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         if (args.length != 0) {
             System.out.println("No arguments expected");
             return;

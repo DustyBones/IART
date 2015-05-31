@@ -18,8 +18,6 @@ public class DataSet {
     private String inputFile;
     private Instances data;
     private ArrayList<String> areaDB;
-    private J48 tree;
-    private Evaluation eval;
 
     public DataSet(String inputFile) throws Exception {
         this.inputFile = inputFile;
@@ -195,7 +193,7 @@ public class DataSet {
     }
 
     public void loadData() throws Exception {
-        ArrayList atts = new ArrayList();
+        ArrayList<Attribute> atts = new ArrayList<>();
         for (int i = 0; i < 68; i++) {
             atts.add(new Attribute("Attribute_" + (i + 1)));
         }
@@ -222,7 +220,7 @@ public class DataSet {
     }
 
     public void test() throws Exception {
-        tree = new J48();
+        J48 tree = new J48();
         String[] options = new String[4];
         options[0] = "-C";
         options[1] = "0.2";
@@ -234,7 +232,7 @@ public class DataSet {
         AdaBoostM1 boost = new AdaBoostM1();
         boost.setClassifier(tree);
 
-        eval = new Evaluation(data);
+        Evaluation eval = new Evaluation(data);
         eval.crossValidateModel(boost, data, 10, new Random(123));
 
         System.out.println(eval.pctCorrect());
