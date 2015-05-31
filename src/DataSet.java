@@ -25,6 +25,7 @@ public class DataSet {
         this.inputFile = inputFile;
 
         areaDB = new ArrayList<>();
+        /*
         areaDB.add("West Europe");
         areaDB.add("East Europe");
         areaDB.add("North America");
@@ -34,6 +35,12 @@ public class DataSet {
         areaDB.add("East Africa");
         areaDB.add("West Asia");
         areaDB.add("SouthEast Asia");
+        areaDB.add("Oceania");
+        */
+        areaDB.add("Europe");
+        areaDB.add("Asia");
+        areaDB.add("Africa");
+        areaDB.add("America");
         areaDB.add("Oceania");
     }
 
@@ -112,6 +119,81 @@ public class DataSet {
         return "NOT_FOUND";
     }
 
+    public String findArea2(String lat, String lon) {
+        float latF, lonF;
+        latF = Float.parseFloat(lat);
+        lonF = Float.parseFloat(lon);
+        if (latF == -15.75f && lonF == -47.95f) {
+            return areaDB.get(3);
+        } else if (latF == 14.91f && lonF == -23.51f) {
+            return areaDB.get(2);
+        } else if (latF == 12.65f && lonF == -8.0f) {
+            return areaDB.get(2);
+        } else if (latF == 9.03f && lonF == 38.74f) {
+            return areaDB.get(2);
+        } else if (latF == 34.03f && lonF == -6.85f) {
+            return areaDB.get(2);
+        } else if (latF == 14.66f && lonF == -17.41f) {
+            return areaDB.get(2);
+        } else if (latF == 52.5f && lonF == -0.12f) {
+            return areaDB.get(0);
+        } else if (latF == 41.26f && lonF == 69.21f) {
+            return areaDB.get(1);
+        } else if (latF == 41.9f && lonF == 12.48f) {
+            return areaDB.get(0);
+        } else if (latF == 28.61f && lonF == 77.2f) {
+            return areaDB.get(1);
+        } else if (latF == 33.66f && lonF == 73.16f) {
+            return areaDB.get(1);
+        } else if (latF == 54.68f && lonF == 25.31f) {
+            return areaDB.get(0);
+        } else if (latF == 44.41f && lonF == 26.1f) {
+            return areaDB.get(0);
+        } else if (latF == 36.7f && lonF == 3.21f) {
+            return areaDB.get(2);
+        } else if (latF == 39.91f && lonF == 32.83f) {
+            return areaDB.get(0);
+        } else if (latF == 19.75f && lonF == 96.1f) {
+            return areaDB.get(1);
+        } else if (latF == 13.75f && lonF == 100.48f) {
+            return areaDB.get(1);
+        } else if (latF == 39.91f && lonF == 116.38f) {
+            return areaDB.get(1);
+        } else if (latF == 23.76f && lonF == 121.0f) {
+            return areaDB.get(1);
+        } else if (latF == -6.17f && lonF == 106.82f) {
+            return areaDB.get(1);
+        } else if (latF == 17.98f && lonF == -76.8f) {
+            return areaDB.get(3);
+        } else if (latF == 35.68f && lonF == 51.41f) {
+            return areaDB.get(1);
+        } else if (latF == 30.03f && lonF == 31.21f) {
+            return areaDB.get(2);
+        } else if (latF == 42.86f && lonF == 74.6f) {
+            return areaDB.get(1);
+        } else if (latF == -1.26f && lonF == 36.8f) {
+            return areaDB.get(2);
+        } else if (latF == 17.25f && lonF == -88.76f) {
+            return areaDB.get(3);
+        } else if (latF == 38.0f && lonF == 23.71f) {
+            return areaDB.get(0);
+        } else if (latF == -35.3f && lonF == 149.12f) {
+            return areaDB.get(4);
+        } else if (latF == 35.7f && lonF == 139.71f) {
+            return areaDB.get(1);
+        } else if (latF == -6.17f && lonF == 35.74f) {
+            return areaDB.get(2);
+        } else if (latF == 41.71f && lonF == 44.78f) {
+            return areaDB.get(0);
+        } else if (latF == 11.55f && lonF == 104.91f) {
+            return areaDB.get(1);
+        } else if (latF == 41.33f && lonF == 19.8f) {
+            return areaDB.get(0);
+        }
+        System.out.println(lat + " " + lon + "NOT FOUND!");
+        return "NOT_FOUND";
+    }
+
     public void loadData() throws Exception {
         ArrayList atts = new ArrayList();
         for (int i = 0; i < 68; i++) {
@@ -131,11 +213,11 @@ public class DataSet {
             for (int i = 0; i < data.numAttributes(); i++) {
                 val[i] = Double.parseDouble(attributes[i]);
             }
-            val[68] = data.attribute(68).indexOfValue(findArea(attributes[68], attributes[69]));
+            val[68] = data.attribute(68).indexOfValue(findArea2(attributes[68], attributes[69]));
             data.add(new DenseInstance(1.0, val));
         }
 
-        //System.out.println(data);
+        System.out.println(data);
         //System.out.println("SetUp done.");
     }
 
